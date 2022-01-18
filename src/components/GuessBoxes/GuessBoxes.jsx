@@ -1,69 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import GuessBox from "../GuessBox/GuessBox";
 import "./GuessBoxes.css";
 
-const useGuessFields = () => {
-  const numOfGuessFields = 5;
-  const [guessValue, setGuessValue] = useState({
-    letter1: "",
-    letter2: "",
-    letter3: "",
-    letter4: "",
-    letter5: "",
-  });
-  return {
-    handleChange: (e) => {
-      const { maxLength, value, name } = e.target;
-      const [inputName, inputNum] = name.split("letter");
-
-      if (value.length >= maxLength) {
-        if (parseInt(inputNum) < numOfGuessFields) {
-          const nextSibling = document.querySelector(
-            `input[name=letter${parseInt(inputNum) + 1}]`
-          );
-
-          if (nextSibling !== null) {
-            nextSibling.focus();
-          }
-        }
-      }
-
-      setGuessValue({
-        ...value,
-        [`letter${name}`]: value,
-      });
-    },
-  };
-};
-
-const GuessBoxes = ({ className }) => {
-  const { handleChange } = useGuessFields();
+const GuessBoxes = ({
+  className,
+  getInputValue,
+  onInputFocus,
+  isCurrentGuess,
+  number,
+}) => {
   return (
     <>
       <GuessBox
         className={className}
-        name={"letter1"}
-        handleChange={handleChange}
+        name={`letter1-${number}`}
+        getInputValue={getInputValue}
+        onInputFocus={onInputFocus}
+        isCurrentGuess={isCurrentGuess}
       />
       <GuessBox
         className={className}
-        name={"letter2"}
-        handleChange={handleChange}
+        name={`letter2-${number}`}
+        getInputValue={getInputValue}
+        onInputFocus={onInputFocus}
+        isCurrentGuess={isCurrentGuess}
       />
       <GuessBox
         className={className}
-        name={"letter3"}
-        handleChange={handleChange}
+        name={`letter3-${number}`}
+        getInputValue={getInputValue}
+        onInputFocus={onInputFocus}
+        isCurrentGuess={isCurrentGuess}
       />
       <GuessBox
         className={className}
-        name={"letter4"}
-        handleChange={handleChange}
+        name={`letter4-${number}`}
+        getInputValue={getInputValue}
+        onInputFocus={onInputFocus}
+        isCurrentGuess={isCurrentGuess}
       />
       <GuessBox
         className={className}
-        name={"letter5"}
-        handleChange={handleChange}
+        name={`letter5-${number}`}
+        getInputValue={getInputValue}
+        onInputFocus={onInputFocus}
+        isCurrentGuess={isCurrentGuess}
       />
     </>
   );
