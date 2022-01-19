@@ -3,13 +3,7 @@ import classnames from "classnames";
 import GuessBoxes from "../GuessBoxes/GuessBoxes";
 import "./GuessRow.css";
 
-const GuessRow = ({
-  number,
-  currentTurn,
-  handleNewTurn,
-  getInputValue,
-  onInputFocus,
-}) => {
+const GuessRow = ({ number, currentTurn, getInputValue, newBgColors }) => {
   const isCurrentGuess = number === currentTurn;
 
   return (
@@ -17,9 +11,9 @@ const GuessRow = ({
       <GuessBoxes
         className={classnames("guess-boxes", isCurrentGuess && "current-guess")}
         getInputValue={getInputValue}
-        onInputFocus={onInputFocus}
         isCurrentGuess={isCurrentGuess}
         number={number}
+        newBgColors={newBgColors}
       />
     </div>
   );

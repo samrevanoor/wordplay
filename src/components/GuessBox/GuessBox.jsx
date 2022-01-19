@@ -2,7 +2,13 @@ import React from "react";
 import classnames from "classnames";
 import "./GuessBox.css";
 
-const GuessBox = ({ className, name, getInputValue, isCurrentGuess }) => {
+const GuessBox = ({
+  className,
+  name,
+  getInputValue,
+  isCurrentGuess,
+  bgColor,
+}) => {
   const onChangeInput = (event) => {
     console.log("onchangeinput", { event });
   };
@@ -18,10 +24,11 @@ const GuessBox = ({ className, name, getInputValue, isCurrentGuess }) => {
         className={classnames("box", className)}
         inputMode="none"
         name={name}
-        value={value}
+        value={getInputValue(name)}
         maxLength={1}
         onChange={onChangeInput}
         disabled={!isCurrentGuess}
+        style={{ backgroundColor: bgColor }}
       />
     </>
   );

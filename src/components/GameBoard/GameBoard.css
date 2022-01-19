@@ -1,0 +1,29 @@
+.confetti-image {
+  position: absolute;
+  transform: rotate(180deg);
+  z-index: 1;
+  width: 290px;
+}
+
+.nice-job-image {
+  position: absolute;
+  z-index: 1;
+  width: 290px;
+}
+
+.sorry-image {
+  position: absolute;
+  z-index: 1;
+  width: 290px;
+}
+
+.button {
+  background-color: #ffd54a;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 5px 10px;
+  position: relative;
+  left: 40%;
+  top: 5%;
+  z-index: 2;
+}
