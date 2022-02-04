@@ -9,8 +9,6 @@ import gotThereInTheEnd from "../../img4.gif";
 import sorry from "../../img5.gif";
 import "./GameBoard.css";
 
-// BLAH BLAH
-
 const GameBoard = () => {
   const keyboard = useRef();
 

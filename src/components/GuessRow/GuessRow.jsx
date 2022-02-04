@@ -3,8 +3,6 @@ import classnames from "classnames";
 import GuessBoxes from "../GuessBoxes/GuessBoxes";
 import "./GuessRow.css";
 
-// BLAH BLAH
-
 const GuessRow = ({ number, currentTurn, getInputValue, newBgColors }) => {
   const isCurrentGuess = number === currentTurn;
 
