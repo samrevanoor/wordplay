@@ -223,6 +223,12 @@ const GameBoard = () => {
         className={"sorry-image"}
         style={{ display: isLost ? "block" : "none" }}
       />
+      <h1
+        className="losing-answer"
+        style={{ display: isLost ? "block" : "none" }}
+      >
+        the word was <span className="losing-answer-word">{word}</span>
+      </h1>
 
       <div>
         <div style={{ opacity: isWon || isLost ? 0.5 : 1, marginLeft: "5px" }}>

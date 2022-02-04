@@ -17,6 +17,20 @@
   z-index: 1;
 }
 
+.losing-answer {
+  position: absolute;
+  z-index: 1;
+  background-color: #ff5959;
+  padding: 10px 40px;
+  font-size: 20px;
+}
+
+.losing-answer-word {
+  color: white;
+  font-style: italic;
+  font-size: 22px;
+}
+
 .button {
   background-color: #ffd54a;
   border: 1px solid grey;
