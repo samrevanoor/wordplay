@@ -12,7 +12,9 @@ import "./GameBoard.css";
 const GameBoard = () => {
   const keyboard = useRef();
 
-  const [word, setWord] = useState(words[Math.floor(Math.random() * 1000)]);
+  const [word, setWord] = useState(
+    words[Math.floor(Math.random() * words.length)]
+  );
   const [inputs, setInputs] = useState({});
   const [inputName, setInputName] = useState("letter1-1");
   const [currentTurn, setCurrentTurn] = useState(1);
@@ -22,7 +24,7 @@ const GameBoard = () => {
   const [isAlmostLost, setIsAlmostLost] = useState(false);
   // const [charsInExactPos, setCharsInExactPos] = useState([]);
   // const [charsInWord, setCharsInWord] = useState([]);
-  // const [charsNotInWord, setCharsNotInWord] = useState([]);
+  const [charsNotInWord, setCharsNotInWord] = useState([]);
 
   const getInputValue = (inputName) => {
     return inputs[inputName] || "";
@@ -68,7 +70,7 @@ const GameBoard = () => {
 
     // const charsInExactPosTemp = [];
     // const charsInWordTemp = [];
-    // const charsNotInWordTemp = [];
+    const charsNotInWordTemp = [];
 
     const guessBgColors = guessArray.map((char, idx) => {
       if (char === wordArray[idx]) {
@@ -87,12 +89,10 @@ const GameBoard = () => {
           `letter${idx + 1}-${currentTurn}`,
           "#ff9c9c",
         ];
-        // charsNotInWordTemp.push(char);
+        charsNotInWordTemp.push(char);
         return characterNotInWord;
       }
     });
-
-    // console.log({ charsInExactPosTemp, charsInWordTemp, charsNotInWordTemp });
 
     //   setCharsInExactPos([...charsInExactPos, charsInExactPosTemp.join(" ")]);
     //   setCharsInWord(
@@ -109,54 +109,41 @@ const GameBoard = () => {
     //         ]
     //       : [...charsInWordTemp.join(" ")]
     //   );
-    //   setCharsNotInWord(
-    //     charsNotInWord.length
-    //       ? [
-    //           ...charsNotInWord[0]
-    //             .split(" ")
-    //             .filter(
-    //               (x) =>
-    //                 x !== charsInExactPosTemp.includes(x) ||
-    //                 charsInWordTemp.includes(x)
-    //             ),
-    //           charsNotInWordTemp.join(" "),
-    //         ]
-    //       : [...charsNotInWordTemp.join(" ")]
-    //   );
+
+    setCharsNotInWord([charsNotInWord.join(" "), ...charsNotInWordTemp]);
     return guessBgColors;
   };
 
-  // const getButtonTheme = () => {
-  //   const buttonAttributes = [];
+  const getButtonTheme = () => {
+    const buttonAttributes = [];
 
-  //   if (charsInExactPos.length) {
-  //     buttonAttributes.push({
-  //       attribute: "style",
-  //       value: "background: #85c75a",
-  //       buttons: charsInExactPos.join(" "),
-  //     });
-  //   }
+    //   if (charsInExactPos.length) {
+    //     buttonAttributes.push({
+    //       attribute: "style",
+    //       value: "background: #85c75a",
+    //       buttons: charsInExactPos.join(" "),
+    //     });
+    //   }
 
-  //   if (charsInWord.length) {
-  //     buttonAttributes.push({
-  //       attribute: "style",
-  //       value: "background: #ffd54a",
-  //       buttons: charsInWord.join(" "),
-  //     });
-  //   }
+    //   if (charsInWord.length) {
+    //     buttonAttributes.push({
+    //       attribute: "style",
+    //       value: "background: #ffd54a",
+    //       buttons: charsInWord.join(" "),
+    //     });
+    //   }
 
-  //   if (charsNotInWord.length) {
-  //     buttonAttributes.push({
-  //       attribute: "style",
-  //       value: "background: #ff9c9c",
-  //       buttons: charsNotInWord.join(" "),
-  //     });
-  //   }
+    if (charsNotInWord.length) {
+      buttonAttributes.push({
+        attribute: "style",
+        value: "background: #ff9c9c",
+        buttons: charsNotInWord.join(" "),
+      });
+    }
 
-  //   console.log({ charsInExactPos, charsInWord, charsNotInWord });
-
-  //   return buttonAttributes;
-  // };
+    //   console.log({ charsInExactPos, charsInWord, charsNotInWord });
+    return buttonAttributes;
+  };
 
   const onKeyPress = (key, event) => {
     if (key === "{enter}") {
@@ -194,7 +181,8 @@ const GameBoard = () => {
     setIsWon(false);
     setIsLost(false);
     setIsAlmostLost(false);
-    setWord(words[Math.floor(Math.random() * 1000)]);
+    setWord(words[Math.floor(Math.random() * words.length)]);
+    setCharsNotInWord([]);
   };
 
   return (
@@ -290,7 +278,7 @@ const GameBoard = () => {
               keyboardRef={(r) => (keyboard.current = r)}
               inputName={inputName}
               onKeyPress={onKeyPress}
-              // buttonAttributes={getButtonTheme()}
+              buttonAttributes={getButtonTheme()}
             />
           )}
         </div>
