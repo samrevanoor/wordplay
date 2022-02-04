@@ -4,11 +4,14 @@ import "./main.css";
 const Main = () => {
   return (
     <>
-      <header className="header">W O R D P L A Y</header>
+      <header className="header">W O R D L E Z</header>
       <div className="content">
         <GameBoard />
       </div>
-      <footer className="footer">by sam </footer>
+      <footer className="footer">
+        with love, <br />
+        sam{" "}
+      </footer>
     </>
   );
 };
