@@ -9,14 +9,7 @@ const GuessBox = ({
   isCurrentGuess,
   bgColor,
 }) => {
-  const onChangeInput = (event) => {
-    console.log("onchangeinput", { event });
-  };
-
-  let value;
-  if (isCurrentGuess) {
-    value = getInputValue(name);
-  }
+  const onChangeInput = (event) => {};
 
   return (
     <>

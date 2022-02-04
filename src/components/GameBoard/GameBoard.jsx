@@ -24,8 +24,6 @@ const GameBoard = () => {
   // const [charsInWord, setCharsInWord] = useState([]);
   // const [charsNotInWord, setCharsNotInWord] = useState([]);
 
-  // console.log({ word });
-
   const getInputValue = (inputName) => {
     return inputs[inputName] || "";
   };
@@ -36,7 +34,6 @@ const GameBoard = () => {
       guessArr.push(Object.values(inputs[`letter${i}-${currentTurn}`]));
     }
     const guess = guessArr.join("");
-    console.log({ guess });
 
     const guessBgColors = validateLetters(guess);
     const guessBgColorsObj = Object.fromEntries(guessBgColors);
