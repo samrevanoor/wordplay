@@ -19,7 +19,6 @@ const GameBoard = () => {
   const [newBgColors, setNewBgColors] = useState({});
   const [isWon, setIsWon] = useState(false);
   const [isLost, setIsLost] = useState(false);
-  const [isInvalid, setIsInvalid] = useState(false);
   const [isAlmostLost, setIsAlmostLost] = useState(false);
   // const [charsInExactPos, setCharsInExactPos] = useState([]);
   // const [charsInWord, setCharsInWord] = useState([]);
@@ -38,25 +37,6 @@ const GameBoard = () => {
     }
     const guess = guessArr.join("");
     console.log({ guess });
-
-    if (!words.includes(guess)) {
-      setIsInvalid(true);
-      setTimeout(() => {
-        setIsInvalid(false);
-      }, 2000);
-
-      setInputName(`letter1-${currentTurn}`);
-
-      setInputs((inputs) => ({
-        ...inputs,
-        [`letter1-${currentTurn}`]: "",
-        [`letter2-${currentTurn}`]: "",
-        [`letter3-${currentTurn}`]: "",
-        [`letter4-${currentTurn}`]: "",
-        [`letter5-${currentTurn}`]: "",
-      }));
-      return;
-    }
 
     const guessBgColors = validateLetters(guess);
     const guessBgColorsObj = Object.fromEntries(guessBgColors);
@@ -246,12 +226,6 @@ const GameBoard = () => {
         className={"sorry-image"}
         style={{ display: isLost ? "block" : "none" }}
       />
-      <h1
-        className="word-list-warning"
-        style={{ display: isInvalid ? "block" : "none" }}
-      >
-        not in word list!
-      </h1>
 
       <div>
         <div style={{ opacity: isWon || isLost ? 0.5 : 1, marginLeft: "5px" }}>

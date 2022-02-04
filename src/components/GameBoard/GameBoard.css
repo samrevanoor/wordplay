@@ -17,13 +17,6 @@
   z-index: 1;
 }
 
-.word-list-warning {
-  position: absolute;
-  z-index: 1;
-  background-color: #ff5959;
-  padding: 10px 40px;
-}
-
 .button {
   background-color: #ffd54a;
   border: 1px solid grey;
