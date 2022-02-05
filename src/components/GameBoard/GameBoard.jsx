@@ -29,6 +29,10 @@ const GameBoard = () => {
   const [charsInWrongPos, setCharsInWrongPos] = useState([]);
   const [charsNotInWord, setCharsNotInWord] = useState([]);
 
+  const green = "#85c75a";
+  const yellow = "#ffd54a";
+  const red = "#ff9c9c";
+
   const getInputValue = (inputName) => {
     return inputs[inputName] || "";
   };
@@ -79,22 +83,16 @@ const GameBoard = () => {
       if (char === wordArray[idx]) {
         const characterInExactPosition = [
           `letter${idx + 1}-${currentTurn}`,
-          "#85c75a",
+          green,
         ];
         charsInExactPosTemp.push(char);
         return characterInExactPosition;
       } else if (wordArray.includes(char)) {
-        const characterInWrongPos = [
-          `letter${idx + 1}-${currentTurn}`,
-          "#ffd54a",
-        ];
+        const characterInWrongPos = [`letter${idx + 1}-${currentTurn}`, yellow];
         charsInWrongPosTemp.push(char);
         return characterInWrongPos;
       } else {
-        const characterNotInWord = [
-          `letter${idx + 1}-${currentTurn}`,
-          "#ff9c9c",
-        ];
+        const characterNotInWord = [`letter${idx + 1}-${currentTurn}`, red];
         charsNotInWordTemp.push(char);
         return characterNotInWord;
       }
@@ -128,7 +126,7 @@ const GameBoard = () => {
       if (charsInExactPos.join(" ").trim()) {
         buttonAttributes.push({
           attribute: "style",
-          value: "background: #85c75a",
+          value: `background: ${green}`,
           buttons: charsInExactPos.join(" ").trim(),
         });
       }
@@ -138,7 +136,7 @@ const GameBoard = () => {
       if (charsInWrongPos.join(" ").trim()) {
         buttonAttributes.push({
           attribute: "style",
-          value: "background: #ffd54a",
+          value: `background: ${yellow}`,
           buttons: charsInWrongPos.join(" ").trim(),
         });
       }
@@ -147,7 +145,7 @@ const GameBoard = () => {
     if (charsNotInWord.length) {
       buttonAttributes.push({
         attribute: "style",
-        value: "background: #ff9c9c",
+        value: `background: ${red}`,
         buttons: charsNotInWord.join(" "),
       });
     }

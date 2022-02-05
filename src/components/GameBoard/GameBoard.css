@@ -32,7 +32,7 @@
 }
 
 .button {
-  background-color: #ffd54a;
+  background-color: #f8c317;
   border: 1px solid grey;
   border-radius: 5px;
   padding: 5px 10px;
@@ -40,8 +40,4 @@
   left: 40%;
   top: 5%;
   z-index: 2;
-}
-
-.chars-in-exact-pos {
-  background: #85c75a;
 }
