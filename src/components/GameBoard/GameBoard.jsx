@@ -8,6 +8,9 @@ import fantastic from "../../img2.gif";
 import gotThereInTheEnd from "../../img4.gif";
 import sorry from "../../img5.gif";
 import "./GameBoard.css";
+import { checkCharsInWrongPos } from "../../helpers/checkCharsInWrongPos";
+import { checkCharsNotInWord } from "../../helpers/checkCharsNotInWord";
+import { checkCharsInExactPos } from "../../helpers/checkCharsInExactPos";
 
 const GameBoard = () => {
   const keyboard = useRef();
@@ -22,8 +25,8 @@ const GameBoard = () => {
   const [isWon, setIsWon] = useState(false);
   const [isLost, setIsLost] = useState(false);
   const [isAlmostLost, setIsAlmostLost] = useState(false);
-  // const [charsInExactPos, setCharsInExactPos] = useState([]);
-  // const [charsInWord, setCharsInWord] = useState([]);
+  const [charsInExactPos, setCharsInExactPos] = useState([]);
+  const [charsInWrongPos, setCharsInWrongPos] = useState([]);
   const [charsNotInWord, setCharsNotInWord] = useState([]);
 
   const getInputValue = (inputName) => {
@@ -68,8 +71,8 @@ const GameBoard = () => {
     const wordArray = word.split("");
     const guessArray = guess.split("");
 
-    // const charsInExactPosTemp = [];
-    // const charsInWordTemp = [];
+    const charsInExactPosTemp = [];
+    const charsInWrongPosTemp = [];
     const charsNotInWordTemp = [];
 
     const guessBgColors = guessArray.map((char, idx) => {
@@ -78,12 +81,15 @@ const GameBoard = () => {
           `letter${idx + 1}-${currentTurn}`,
           "#85c75a",
         ];
-        // charsInExactPosTemp.push(char);
+        charsInExactPosTemp.push(char);
         return characterInExactPosition;
       } else if (wordArray.includes(char)) {
-        const characterInWord = [`letter${idx + 1}-${currentTurn}`, "#ffd54a"];
-        // charsInWordTemp.push(char);
-        return characterInWord;
+        const characterInWrongPos = [
+          `letter${idx + 1}-${currentTurn}`,
+          "#ffd54a",
+        ];
+        charsInWrongPosTemp.push(char);
+        return characterInWrongPos;
       } else {
         const characterNotInWord = [
           `letter${idx + 1}-${currentTurn}`,
@@ -94,44 +100,49 @@ const GameBoard = () => {
       }
     });
 
-    //   setCharsInExactPos([...charsInExactPos, charsInExactPosTemp.join(" ")]);
-    //   setCharsInWord(
-    //     charsInWord.length
-    //       ? [
-    //           ...charsInWord[0]
-    //             .split(" ")
-    //             .filter(
-    //               (x) =>
-    //                 x !== charsInExactPosTemp.includes(x) ||
-    //                 charsNotInWordTemp.includes(x)
-    //             ),
-    //           charsInWordTemp.join(" "),
-    //         ]
-    //       : [...charsInWordTemp.join(" ")]
-    //   );
+    setCharsInExactPos(
+      checkCharsInExactPos(
+        charsInExactPos,
+        charsInExactPosTemp,
+        charsInWrongPosTemp
+      )
+    );
 
-    setCharsNotInWord([charsNotInWord.join(" "), ...charsNotInWordTemp]);
+    setCharsInWrongPos(
+      checkCharsInWrongPos(
+        charsInWrongPos,
+        charsInWrongPosTemp,
+        charsInExactPosTemp
+      )
+    );
+
+    setCharsNotInWord(checkCharsNotInWord(charsNotInWord, charsNotInWordTemp));
+
     return guessBgColors;
   };
 
-  const getButtonTheme = () => {
+  const getButtonAttributes = () => {
     const buttonAttributes = [];
 
-    //   if (charsInExactPos.length) {
-    //     buttonAttributes.push({
-    //       attribute: "style",
-    //       value: "background: #85c75a",
-    //       buttons: charsInExactPos.join(" "),
-    //     });
-    //   }
+    if (charsInExactPos.length) {
+      if (charsInExactPos.join(" ").trim()) {
+        buttonAttributes.push({
+          attribute: "style",
+          value: "background: #85c75a",
+          buttons: charsInExactPos.join(" ").trim(),
+        });
+      }
+    }
 
-    //   if (charsInWord.length) {
-    //     buttonAttributes.push({
-    //       attribute: "style",
-    //       value: "background: #ffd54a",
-    //       buttons: charsInWord.join(" "),
-    //     });
-    //   }
+    if (charsInWrongPos.length) {
+      if (charsInWrongPos.join(" ").trim()) {
+        buttonAttributes.push({
+          attribute: "style",
+          value: "background: #ffd54a",
+          buttons: charsInWrongPos.join(" ").trim(),
+        });
+      }
+    }
 
     if (charsNotInWord.length) {
       buttonAttributes.push({
@@ -141,7 +152,6 @@ const GameBoard = () => {
       });
     }
 
-    //   console.log({ charsInExactPos, charsInWord, charsNotInWord });
     return buttonAttributes;
   };
 
@@ -173,7 +183,7 @@ const GameBoard = () => {
     }
   };
 
-  const resetClick = (event) => {
+  const resetClick = () => {
     setInputs({});
     setInputName("letter1-1");
     setCurrentTurn(1);
@@ -182,6 +192,8 @@ const GameBoard = () => {
     setIsLost(false);
     setIsAlmostLost(false);
     setWord(words[Math.floor(Math.random() * words.length)]);
+    setCharsInExactPos([]);
+    setCharsInWrongPos([]);
     setCharsNotInWord([]);
   };
 
@@ -191,7 +203,7 @@ const GameBoard = () => {
         src={confetti}
         alt="confetti"
         className={"confetti-image"}
-        style={{ display: isWon && isAlmostLost ? "block" : "none" }}
+        style={{ display: isWon ? "block" : "none" }}
       />
       <img
         src={fantastic}
@@ -278,7 +290,7 @@ const GameBoard = () => {
               keyboardRef={(r) => (keyboard.current = r)}
               inputName={inputName}
               onKeyPress={onKeyPress}
-              buttonAttributes={getButtonTheme()}
+              buttonAttributes={getButtonAttributes()}
             />
           )}
         </div>
