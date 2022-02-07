@@ -11,6 +11,7 @@ import "./GameBoard.css";
 import { checkCharsInWrongPos } from "../../helpers/checkCharsInWrongPos";
 import { checkCharsNotInWord } from "../../helpers/checkCharsNotInWord";
 import { checkCharsInExactPos } from "../../helpers/checkCharsInExactPos";
+import { isIncompleteWord } from "../../helpers/isIncompleteWord";
 
 const GameBoard = () => {
   const keyboard = useRef();
@@ -37,13 +38,8 @@ const GameBoard = () => {
     return inputs[inputName] || "";
   };
 
-  const handleSubmit = () => {
-    const guessArr = [];
-    for (let i = 1; i < 6; i++) {
-      guessArr.push(Object.values(inputs[`letter${i}-${currentTurn}`]));
-    }
+  const handleSubmit = (guessArr) => {
     const guess = guessArr.join("");
-
     const guessBgColors = validateLetters(guess);
     const guessBgColorsObj = Object.fromEntries(guessBgColors);
     setNewBgColors((newBgColors) => ({
@@ -155,7 +151,14 @@ const GameBoard = () => {
 
   const onKeyPress = (key, event) => {
     if (key === "{enter}") {
-      handleSubmit();
+      const guessArr = [];
+      for (let i = 1; i < 6; i++) {
+        guessArr.push(inputs[`letter${i}-${currentTurn}`]);
+      }
+
+      const checkWordForIncompletion = isIncompleteWord(guessArr);
+      if (checkWordForIncompletion) return;
+      handleSubmit(guessArr);
       return;
     }
     if (key !== "{bksp}") {
@@ -171,11 +174,8 @@ const GameBoard = () => {
     }
     if (key === "{bksp}") {
       const letterNum = inputName.split("letter")[1][0];
-
       if (parseInt(letterNum) === 1) return;
-
       setInputName(`letter${parseInt(letterNum) - 1}-${currentTurn}`);
-
       setInputs((inputs) => ({
         ...inputs,
         [`letter${parseInt(letterNum) - 1}-${currentTurn}`]: "",
