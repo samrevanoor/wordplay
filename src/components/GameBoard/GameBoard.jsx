@@ -172,6 +172,8 @@ const GameBoard = () => {
     if (key === "{bksp}") {
       const letterNum = inputName.split("letter")[1][0];
 
+      if (parseInt(letterNum) === 1) return;
+
       setInputName(`letter${parseInt(letterNum) - 1}-${currentTurn}`);
 
       setInputs((inputs) => ({
@@ -289,6 +291,7 @@ const GameBoard = () => {
               inputName={inputName}
               onKeyPress={onKeyPress}
               buttonAttributes={getButtonAttributes()}
+              disableButtonHold
             />
           )}
         </div>
